@@ -89,7 +89,7 @@ void cshell(){
             // Parent //
             wait( (int *) 0 );
         } else {
-            printf("the command -> [%s]\n",args[0]);
+//            printf("the command -> [%s]\n",args[0]);
             if (strcmp(args[0], "log") == 0) {
 //                printf("entered log\n");
                 log_print(log, logCounter);
@@ -97,11 +97,13 @@ void cshell(){
 //                printf("entered print\n");
                 print(args);
             }else if(strcmp(args[0], "theme") == 0) {
-                printf("the command -> [%s]\n",args[1]);
+//                printf("the command -> [%s]\n",args[1]);
                 color(args[1]);
+//                exit(0);
             } else {
                 printf("Missing keyword or command, or permission problem\n");
             }
+            exit(0);
         }
         log[logCounter++] = log_add(args[0]);
     } while(1);
