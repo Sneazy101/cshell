@@ -8,7 +8,7 @@
 
 typedef struct{
     char *name;
-    struct tm* time;
+    char* time;
 } record;
 
 void color(char *color){
@@ -38,12 +38,13 @@ record log_add(char* command){
     newNode.name = temp;
     time_t t;
     t = time(NULL);
-    newNode.time = localtime(&t);
+    char *temp2 = strdup(asctime(localtime(&t)));
+    newNode.time = temp2;
     return newNode;
 }
 
 void printIndivisualLog(record log){
-    printf("%s", asctime(log.time));
+    printf("%s", log.time);
     printf("%s 0\n", log.name);
 }
 
