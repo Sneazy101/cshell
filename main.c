@@ -5,6 +5,7 @@
 #include<sys/wait.h>
 #include <time.h>
 #include <memory.h>
+#include <errno.h>
 
 typedef struct{
     char *name;
@@ -65,6 +66,7 @@ void cshell(){
     do {
         int i = 0;               // Counter.
         // Take user Input and parse it
+        printf("cshell$");
         fgets(userInput, sizeof(userInput), stdin);
         userInput[strlen(userInput)-1] = '\0';
 
@@ -89,20 +91,15 @@ void cshell(){
             // Parent //
             wait( (int *) 0 );
         } else {
-//            printf("the command -> [%s]\n",args[0]);
             if (strcmp(args[0], "log") == 0) {
-//                printf("entered log\n");
                 log_print(log, logCounter);
             } else if (strcmp(args[0], "print") == 0){
-//                printf("entered print\n");
                 print(args);
             }else if(strcmp(args[0], "theme") == 0) {
-//                printf("the command -> [%s]\n",args[1]);
                 color(args[1]);
-//                exit(0);
-            } else {
-                printf("Missing keyword or command, or permission problem\n");
-            }
+            } else if(execvp(args[0], args) < 0) {
+                 printf("Missing keyword or command, or permission problem\n");
+             }
             exit(0);
         }
         log[logCounter++] = log_add(args[0]);
@@ -110,7 +107,10 @@ void cshell(){
 
 }
 
-int main() {
+int main(int argc, char** argv) {
+
+
+
     cshell();
 //    exit(0);
 
